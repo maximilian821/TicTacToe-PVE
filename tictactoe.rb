@@ -28,13 +28,13 @@ class TicTacToe
       puts "\nDraw!"
     end
   end
-
-  private
-
+  
+  # Check if the move entered by the user is valid move
   def self.is_valid?(value)
     (@b.layout.include?(value) && value != 'X ' && value != 'O ') ? true : false
   end
 
+  # Calculate the best move for computer
   def self.computer_move
     empty = @b.layout.select { |e| e != 'X ' && e != 'O ' }
     empty_indexes = []
@@ -48,13 +48,16 @@ class TicTacToe
     move = calculate_move('X ')
     return move if move
 
+    # Some tricky logic
     if @b.layout[0] == 'X ' && @b.layout[8] == 'X ' || @b.layout[2] == 'X ' && @b.layout[6] == 'X '
       return ([1, 3, 5, 7] & empty_indexes).sample
     end
+    # Make a move to one of the availiable corners
     a = ([0, 2, 6, 8] & empty_indexes).sample
     return a == nil ? empty_indexes.sample : a
   end
 
+  # Find a winning move
   def self.calculate_move(item)
     @b.empty_spots.each do |s|
       board = @b.layout.dup
